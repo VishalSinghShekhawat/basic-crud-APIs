@@ -1,0 +1,99 @@
+package com.springlearn.studentmanagementapp;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+
+@RestController         //----> It ensures that the called API comes here(understand as a target for APIs) and we
+                       // will write all our APIs in this class
+
+public class StudentController {
+
+ HashMap<Integer,Student> db = new HashMap<>();
+
+    @GetMapping("/getStudent")                        //----> URL:- ______.com/getStudent?regNo = 179&name = Vishal
+    public Student getStudent(@RequestParam("regNo") int regNo, @RequestParam("name") String name){
+         return db.get(regNo);
+    }
+
+    @GetMapping("/getStudent")      //Get API annotation           //----> URL:- ______.com/getStudent?regNo = 179
+    public Student getStudent(@RequestParam("regNo") int regNo){  //RequestParam to take variable as input
+        return db.get(regNo);
+    }
+
+    @PostMapping("/addStudent")
+    public String addStudent(@RequestBody Student student){ //RequestBody to take object as input
+        if(db.containsKey(student.getReg())){
+            return "Student already added";
+        }else{
+            db.put(student.getReg(), student);
+            return "Student added successfully";
+        }
+    }
+
+    @GetMapping("/getStudent/{regNo}")       //----> work similar as RequestParam   URL:- _____.com/getStudent/179
+    public Student getStudentByPath(@PathVariable("regNo") int regNo){  //RequestParam to take variable as input
+        return db.get(regNo);
+    }
+
+    @PutMapping("/updateAge/{newAge}")
+    public Student updateStudent(@RequestParam("regNo") int regNo, @PathVariable("newAge") int newAge){
+        db.get(regNo).setAge((newAge));
+        return db.get(regNo);
+    }
+
+    @DeleteMapping("/delete")
+    public String delete(@RequestParam("q") int regNo){
+        if(!db.containsKey(regNo))
+            return "Student doesn't exist";
+
+        db.remove(regNo);
+        return "Student deleted successfully";
+    }
+
+    @DeleteMapping("/delete/{q}")
+    public String deleteByPath(@PathVariable("q") int regNo){
+        if(!db.containsKey(regNo))
+            return "Student doesn't exist";
+
+        db.remove(regNo);
+        return "Student deleted successfully";
+    }
+
+    @PutMapping("/changeCourse")
+    public Student changeCourse(@RequestParam("q") int regNo,@RequestParam("r") String course){
+        if(!db.containsKey(regNo))
+            System.out.println("Student doesn't exist");
+
+        db.get(regNo).setCourse(course);
+        return db.get(regNo);
+    }
+
+    @PutMapping("/changeCourse/{q}/{r}")
+    public Student changeCourse1(@PathVariable("q") int regNo,@PathVariable("r") String course){
+        if(!db.containsKey(regNo))
+            System.out.println("Student doesn't exist");
+
+        db.get(regNo).setCourse(course);
+        return db.get(regNo);
+    }
+
+    @PutMapping("/changeCourse/{q}")
+    public Student changeCourse2(@PathVariable("q") int regNo,@RequestParam("r") String course){
+        if(!db.containsKey(regNo))
+            System.out.println("Student doesn't exist");
+
+        db.get(regNo).setCourse(course);
+        return db.get(regNo);
+    }
+
+    @PutMapping("/changeCourseAndAge")
+    public Student changeCourseAndAge(@RequestParam("q") int regNo,@RequestBody Student s){
+        if(!db.containsKey(regNo))
+            System.out.println("Student doesn't exist");
+
+        db.put(regNo,s);
+        return db.get(regNo);
+    }
+
+}
