@@ -34,20 +34,20 @@ public class StudentRepository {
         return db.get(regNo);
     }
 
-    public String delete(int regNo){
+    public int delete(int regNo){
         if(!db.containsKey(regNo))
-            return "Student doesn't exist";
+            return 0;
 
         db.remove(regNo);
-        return "Student deleted successfully";
+        return 1;
     }
 
-    public String deleteByPath(int regNo){
+    public int deleteByPath(int regNo){
         if(!db.containsKey(regNo))
-            return "Student doesn't exist";
+            return 0;
 
         db.remove(regNo);
-        return "Student deleted successfully";
+        return 1;
     }
 
     public Student changeCourse(int regNo,String course){

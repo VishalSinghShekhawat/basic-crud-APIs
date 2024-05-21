@@ -20,6 +20,8 @@ public class StudentService {
     }
 
     public String addStudent(Student student){ //RequestBody to take object as input
+        System.out.println("Repo Bean in service class: " + sR); //----> Statement is used to show that @Autowired
+                                                                // creates single object in entire application
         return sR.addStudent(student);
     }
 
@@ -31,11 +33,11 @@ public class StudentService {
        return sR.updateStudent(regNo, newAge);
     }
 
-    public String delete(int regNo){
+    public int delete(int regNo){
        return sR.delete(regNo);
     }
 
-    public String deleteByPath(int regNo){
+    public int deleteByPath(int regNo){
        return sR.deleteByPath(regNo);
     }
 
