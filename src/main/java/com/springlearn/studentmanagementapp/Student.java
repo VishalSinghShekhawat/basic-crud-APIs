@@ -10,6 +10,8 @@ public class Student {
 
     private int age;
 
+    private Month birthMonth = Month.JANUARY;        //---> Just to show ENUM application
+
     public Student() {
     }
 
@@ -50,5 +52,16 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "reg=" + reg +
+                ", course='" + course + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", birthMonth=" + birthMonth +
+                '}';
     }
 }

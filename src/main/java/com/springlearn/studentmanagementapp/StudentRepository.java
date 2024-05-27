@@ -1,5 +1,6 @@
 package com.springlearn.studentmanagementapp;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 
 @Repository   // Tell spring that this is our Repository class and all the logics related to database are written here
+//@Scope("prototype")  //---> Used to make Bean behave like normal JAVA object
 public class StudentRepository {
 
     HashMap<Integer,Student> db = new HashMap<>();

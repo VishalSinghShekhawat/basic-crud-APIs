@@ -1,15 +1,20 @@
 package com.springlearn.studentmanagementapp;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 @RestController         //----> It ensures that the called API comes here(understand as a target for APIs) and we
                        // will write all our APIs in this class
 @RequestMapping("/student")    //Use to give common endpoint in all APIs "/get" will be called as "/student/get"
+
+@Slf4j
 public class StudentController {
 
  @Autowired
@@ -18,10 +23,16 @@ public class StudentController {
  @Autowired
  StudentRepository sR1;
 
+
 //    @GetMapping("/getStudent")                        //----> URL:- ______.com/getStudent?regNo = 179&name = Vishal
 //    public Student getStudent(@RequestParam("regNo") int regNo, @RequestParam("name") String name){
 //        return db.get(regNo);
 //    }
+
+
+ // syntax to create log object so that we can generate log in our application
+//public Logger log = Logger.getLogger(String.valueOf(StudentController.class));
+
 
 
     @GetMapping("/get")      //Get API annotation           //----> URL:- ______.com/getStudent?regNo = 179
@@ -29,14 +40,24 @@ public class StudentController {
         return sS.getStudent1(regNo);
     }
 
+
+
     @PostMapping("/add")
     public String addStudent(@RequestBody Student student){ //RequestBody to take object as input
         System.out.println("Repo Bean in controller class: " + sR1); //----> Statement is used to show that @Autowired
                              // creates single object in entire application even when name is changed(not possible in
                              // with "new" keyword)
         System.out.println("Service bean in controller class: "+ sS);
+
+        //log.info(String.valueOf(student)); //---> To generate log
+
+        log.warn("This is WARN log");
+        log.trace("This is TRACE log");
+
         return sS.addStudent(student);
     }
+
+
 
     @GetMapping("/get/{regNo}")       //----> work similar as RequestParam   URL:- _____.com/getStudent/179
     public ResponseEntity getStudentByPath(@PathVariable("regNo") int regNo){  //RequestParam to take variable as input
@@ -48,6 +69,8 @@ public class StudentController {
         }
     }
 
+
+
     @PutMapping("/updateAge/{r}")
     public ResponseEntity updateStudent(@RequestParam("q") int regNo, @PathVariable("r") int newAge){
         Student s = sS.updateStudent(regNo, newAge);
@@ -57,6 +80,8 @@ public class StudentController {
             return new ResponseEntity(s, HttpStatus.FOUND);
         }
     }
+
+
 
     @DeleteMapping("/delete")
     public ResponseEntity delete(@RequestParam("q") int regNo){
@@ -69,6 +94,8 @@ public class StudentController {
         }
     }
 
+
+
     @DeleteMapping("/delete/{q}")
     public ResponseEntity deleteByPath(@PathVariable("q") int regNo){
         int ans = sS.deleteByPath(regNo);
@@ -79,6 +106,8 @@ public class StudentController {
             return new ResponseEntity("Student deleted Successfully", HttpStatus.FOUND);
         }
     }
+
+
 
     @PutMapping("/changeCourse")
     public ResponseEntity changeCourse(@RequestParam("q") int regNo,@RequestParam("r") String course){
@@ -91,6 +120,8 @@ public class StudentController {
         }
     }
 
+
+
     @PutMapping("/changeCourse/{q}/{r}")
     public ResponseEntity changeCourse1(@PathVariable("q") int regNo,@PathVariable("r") String course){
         Student student = sS.changeCourse1(regNo, course);
@@ -102,6 +133,8 @@ public class StudentController {
         }
     }
 
+
+
     @PutMapping("/changeCourse/{q}")
      public ResponseEntity changeCourse2(@PathVariable("q") int regNo,@RequestParam("r") String course){
             Student student = sS.changeCourse2(regNo, course);
@@ -112,6 +145,8 @@ public class StudentController {
             return new ResponseEntity(student, HttpStatus.FOUND);
         }
     }
+
+
 
     @PutMapping("/changeCourseAndAge")
     public ResponseEntity changeCourseAndAge(@RequestParam("q") int regNo,@RequestBody Student s){
